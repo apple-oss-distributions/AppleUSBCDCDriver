@@ -92,8 +92,8 @@ private:
 
     bool			fNetifEnabled;
     bool			fWOL;
-	UInt32			fUpSpeed;
-    UInt32			fDownSpeed;
+	UInt64			fUpSpeed;
+    UInt64			fDownSpeed;
 	bool			fSleeping;
     
     IOUSBPipe			*fInPipe;
@@ -142,6 +142,7 @@ public:
     IOUSBInterface		*fDataInterface;
     IOWorkLoop			*fWorkLoop;
     UInt8			fDataInterfaceNumber;
+    UInt16			fAltInterface;
     
     UInt16			fInBufPool;
     UInt16			fOutBufPool;
@@ -155,6 +156,7 @@ public:
 	UInt8			fResetState;
     bool            fQueueStarted;
     bool			fTxStalled;
+	bool			fEnumOnWake;				// Do we need to re-enumerate on wake
     
     IONetworkStats		*fpNetStats;
     IOEthernetStats		*fpEtherStats;
@@ -169,7 +171,8 @@ public:
     virtual bool		init(OSDictionary *properties = 0);
 	virtual IOService   *probe(IOService *provider, SInt32 *score);
     virtual bool		start(IOService *provider);
-    virtual void		stop(IOService *provider);
+    virtual void		stop(IOService *provider);  
+    virtual bool            willTerminate( IOService * provider, IOOptionBits options );
     virtual IOReturn 		message(UInt32 type, IOService *provider, void *argument = 0);
 
         // IOEthernetController methods

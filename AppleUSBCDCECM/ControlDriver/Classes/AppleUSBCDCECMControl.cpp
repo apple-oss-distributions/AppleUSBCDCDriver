@@ -250,8 +250,6 @@ void AppleUSBCDCECMControl::commReadComplete(void *obj, void *param, IOReturn rc
                     break;
                 case kUSBCONNECTION_SPEED_CHANGE:
                     speedChange = (ConnectionSpeedChange *)me->fCommPipeBuffer;
-//                    me->fUpSpeed = USBToHostLong((UInt32)me->fCommPipeBuffer[8]);
-//                    me->fDownSpeed = USBToHostLong((UInt32)me->fCommPipeBuffer[13]);
 					me->fUpSpeed = USBToHostLong(speedChange->USBitRate);
 					me->fDownSpeed = USBToHostLong(speedChange->DSBitRate);
 
@@ -1041,7 +1039,7 @@ bool AppleUSBCDCECMControl::USBSetMulticastFilter(IOEthernetAddress *addrs, UInt
         }
         for (j=0; j<kIOEthernetAddressSize; j++)
         {
-            eaddrs[rnum++] = addrs->bytes[j];
+            eaddrs[rnum++] = addrs[i].bytes[j];
         }
     }
     
